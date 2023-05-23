@@ -56,11 +56,7 @@ public abstract class AbstractPacket {
                 continue;
             }
 
-            try {
-                ProtocolLibrary.getProtocolManager().sendServerPacket(receiver, this.handle);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException("Cannot send packet", e);
-            }
+            ProtocolLibrary.getProtocolManager().sendServerPacket(receiver, this.handle);
         }
     }
 }
