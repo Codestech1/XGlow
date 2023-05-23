@@ -97,22 +97,15 @@ implements IGlowProcessor {
 
     @Override
     public WrappedDataWatcher createDataWatcher(Entity entity, boolean enableGlow) {
-        System.out.println("Creating data watcher...");
-        WrappedDataWatcher dataWatcher = WrappedDataWatcher.getEntityWatcher(entity);
+        WrappedDataWatcher dataWatcher = WrappedDataWatcher.getEntityWatcher(entity).deepClone();
 
-        System.out.println("Cloning...");
-        dataWatcher = dataWatcher.deepClone();
-
-        System.out.println("Get byte...");
         byte mask = dataWatcher.getByte(0);
 
         if (enableGlow) {
             mask |= 0x40;
         }
 
-        System.out.println("Set entity...");
         dataWatcher.setEntity(entity);
-        System.out.println("Set mask...");
         dataWatcher.setObject(0, BYTE_SERIALIZER, mask);
 
         return dataWatcher;

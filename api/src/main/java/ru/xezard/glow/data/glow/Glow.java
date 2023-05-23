@@ -69,11 +69,7 @@ extends AbstractGlow {
                 continue;
             }
 
-            packets.add(GlowProcessor.getInstance().createGlowPacket(entity, add));
-        }
-
-        if (packets.isEmpty()) {
-            return;
+            entity.setGlowing(add);
         }
 
         packets.add(GlowProcessor.getInstance()
