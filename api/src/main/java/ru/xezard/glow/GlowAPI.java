@@ -24,6 +24,11 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedDataValue;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
@@ -66,10 +71,19 @@ public class GlowAPI {
                 Entity entity = packet.getEntityModifier(event).read(0);
 
                 GlowsManager.getInstance().getGlowByEntity(entity).ifPresent((glow) -> {
-                    packet.getWatchableCollectionModifier().write(0,
-                            GlowProcessor.getInstance().createDataWatcher(entity, glow.sees(event.getPlayer()))
-                                    .getWatchableObjects());
+                    final List<WrappedDataValue> wrappedDataValueList = new ArrayList<>();
 
+                    GlowProcessor.getInstance()
+                            .createDataWatcher(entity, glow.sees(event.getPlayer()))
+                            .getWatchableObjects()
+                            .stream()
+                            .filter(Objects::nonNull)
+                            .forEach(entry -> {
+                                final WrappedDataWatcher.WrappedDataWatcherObject dataWatcherObject = entry.getWatcherObject();
+                                wrappedDataValueList.add(new WrappedDataValue(dataWatcherObject.getIndex(), dataWatcherObject.getSerializer(), entry.getRawValue()));
+                            });
+
+                    packet.getDataValueCollectionModifier().write(0, wrappedDataValueList);
                     event.setPacket(packet);
                 });
             }
