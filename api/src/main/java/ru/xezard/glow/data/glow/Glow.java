@@ -94,8 +94,7 @@ extends AbstractGlow {
             return;
         }
 
-        List<AbstractPacket> packets = GlowProcessor.getInstance()
-                .createGlowPackets(this.holders, true);
+        List<AbstractPacket> packets = new ArrayList<>();
 
         packets.add(GlowProcessor.getInstance()
                 .createTeamPacket(this.holders, this.color, this.name,
@@ -128,8 +127,7 @@ extends AbstractGlow {
             this.viewers.remove(viewer);
         }
 
-        List<AbstractPacket> packets = this.holders.isEmpty() ? new ArrayList<> () :
-                GlowProcessor.getInstance().createGlowPackets(this.holders, display);
+        List<AbstractPacket> packets = new ArrayList<>();
 
         packets.add(GlowProcessor.getInstance()
                 .createTeamPacket(this.holders, this.color, this.name,
