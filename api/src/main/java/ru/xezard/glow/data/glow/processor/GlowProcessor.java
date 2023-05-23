@@ -89,6 +89,7 @@ implements IGlowProcessor {
 
     @Override
     public AbstractPacket createGlowPacket(Entity entity, boolean glow) {
+        System.out.println("Creating glow packet...");
         List<WrappedWatchableObject> metadata = this.createDataWatcher(entity, glow).getWatchableObjects();
 
         return new WrapperPlayServerEntityMetadata(metadata, entity.getEntityId());
@@ -96,6 +97,7 @@ implements IGlowProcessor {
 
     @Override
     public WrappedDataWatcher createDataWatcher(Entity entity, boolean enableGlow) {
+        System.out.println("Creating data watcher...");
         WrappedDataWatcher dataWatcher = WrappedDataWatcher.getEntityWatcher(entity).deepClone();
 
         byte mask = dataWatcher.getByte(0);
